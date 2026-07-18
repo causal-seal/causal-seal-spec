@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neutrality charter — Causal Seal</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='none' stroke='%231f6b38' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='8' fill='none' stroke='%231f6b38' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='2.5' fill='%231f6b38'/%3E%3C/svg%3E">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#0e1116;color:#e6e6e6;line-height:1.65}
+  .nav{border-bottom:1px solid #2d333b;padding:14px 16px;position:sticky;top:0;background:#0e1116cc;backdrop-filter:blur(8px);z-index:10}
+  .nav .in{max-width:820px;margin:0 auto;display:flex;flex-wrap:wrap;gap:16px;align-items:center;font-size:.85rem}
+  .nav a{color:#8a8f98;text-decoration:none}.nav a:hover{color:#e6e6e6}
+  .nav .brand{font-weight:700;color:#e6e6e6;margin-right:auto;display:flex;align-items:center;gap:7px}
+  .wrap{max-width:820px;margin:0 auto;padding:44px 16px}
+  h1{font-size:1.7rem;margin-bottom:8px}
+  .lead{color:#8a8f98;font-size:1.05rem;margin-bottom:26px}
+  h2{font-size:1.1rem;margin:24px 0 6px;color:#3fb96a}
+  p{margin-bottom:12px}
+  ol{margin:0 0 12px 20px}li{margin-bottom:12px}
+  .foot{max-width:820px;margin:40px auto 0;padding:16px;border-top:1px solid #2d333b;font-size:.75rem;color:#565c66}
+  a.inline{color:#3fb96a}
+</style>
+</head>
+<body>
+<div class="nav"><div class="in">
+  <a class="brand" href="index.html"><svg width="20" height="20" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="none" stroke="#3fb96a" stroke-width="2"/><circle cx="16" cy="16" r="8" fill="none" stroke="#3fb96a" stroke-width="2"/><circle cx="16" cy="16" r="2.5" fill="#3fb96a"/></svg>Causal Seal</a>
+  <a href="about.html">What it is</a>
+  <a href="sectors.html">Sectors</a>
+  <a href="ai-act.html">EU AI Act</a>
+  <a href="nist.html">NIST</a>
+  <a href="us-states.html">US states</a>
+  <a href="faq.html">FAQ</a>
+  <a href="verify.html">Verify</a>
+</div></div>
+
+<div class="wrap">
+<h1>Neutrality charter</h1>
+<p class="lead">A standard is only trusted if it belongs to everyone. This charter states, in plain terms, how the Causal Seal stays neutral — and what would make you right to walk away if it ever stopped.</p>
+
+<h2>1. The format is a common good</h2>
+<p>The specification is published under CC BY 4.0 and the reference implementation under the MIT license. Anyone may read it, implement it, verify seals, and build tools — commercially or not — without a license, a fee, or permission. Implementing the <b>format</b> is, and will remain, royalty-free.</p>
+
+<h2>2. No implementer is privileged</h2>
+<p>The standard names no preferred vendor. Any organization may build a conformant emitter or verifier. Where a reference implementation is cited, it is cited as an <i>example that exists in production</i> — never as the one you must buy. Verification never requires trusting any particular company: it is a public computation you can run yourself.</p>
+
+<h2>3. Verification is unconditional</h2>
+<p>Checking a seal's integrity requires nothing but the seal and open, published rules. It needs no access to any model, no online service, no account, and no gatekeeper. The free browser verifier runs entirely on your device and sends nothing anywhere.</p>
+
+<h2>4. Meaning is public; mechanism may be private</h2>
+<p>Every emitter must publish a dictionary giving the <i>meaning</i> of each parameter it seals — so audits are possible. Emitters need not disclose <i>how</i> they compute those parameters; the engineering of good governance is where implementers legitimately compete. The standard governs the envelope of proof, not anyone's engine.</p>
+
+<h2>5. Governance opens as the standard grows</h2>
+<p>The specification is versioned and archived with a permanent DOI. It is currently a v1.0 draft, stewarded by its editor and open for public review. As adoption grows, stewardship is intended to broaden — toward a multi-stakeholder body and, where useful, formal standardization — rather than to concentrate.</p>
+
+<h2>6. What should make you leave</h2>
+<p>Hold us to this: if the format ever becomes pay-to-implement, if verification ever requires a specific vendor's service, or if the specification is ever closed — the standard will have betrayed this charter, and you should fork it. The license permits exactly that, on purpose.</p>
+
+<p style="margin-top:24px"><a class="inline" href="sectors.html">→ Sectors we cover</a> · <a class="inline" href="faq.html">→ FAQ</a></p>
+</div>
+
+<div class="foot">Causal Seal — an open standard for decision provenance. Specification CC BY 4.0 · reference code MIT · DOI <a href="https://doi.org/10.5281/zenodo.21431267" style="color:#565c66">10.5281/zenodo.21431267</a>.</div>
+</body>
+</html>

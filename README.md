@@ -5,7 +5,7 @@
 Content provenance (C2PA) proves where an artifact comes from. Log integrity proves a record wasn't altered. The **Causal Seal** proves something neither does: ***why* a generative system produced a specific output** — by cryptographically binding the output to the causal parameters that governed its generation.
 
 - **[SPEC.md](SPEC.md)** — the specification (data model, canonicalization, verification, conformance, regulatory mapping).
-- **[causal_seal.py](causal_seal.py)** — minimal reference implementation, standard library only: emitter + Level-1 verifier + CLI (`demo`, `verify`, `selftest`).
+- **[causal_seal.py](causal_seal.py)** — minimal reference implementation, standard library only: emitter + Level-1 verifier + CLI (`demo`, `verify`, `selftest`). Install: `pip install causal-seal` ([PyPI](https://pypi.org/project/causal-seal/)).
 - **[causal-seal.schema.json](causal-seal.schema.json)** — JSON Schema for automated validation.
 - **[test-vectors/](test-vectors/)** — computed vectors: a valid seal (with its exact expected fingerprint) and a tampered one that must fail.
 - **[docs/verify.html](docs/verify.html)** — public verifier ([live](https://causalseal.org/verify.html)): paste a seal (and optionally the output text), get 🟢/🔴 — computed entirely in the browser, nothing sent anywhere. Validated against the test vectors.

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Causal Seal — Verifier</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; background:#0e1116; color:#e6e6e6; min-height:100vh; padding:40px 16px; }
+  .wrap { max-width:820px; margin:0 auto; }
+  h1 { font-size:1.5rem; margin-bottom:4px; }
+  .sub { color:#8a8f98; font-size:.9rem; margin-bottom:28px; }
+  label { display:block; font-size:.8rem; color:#8a8f98; margin:16px 0 6px; text-transform:uppercase; letter-spacing:1px; }
+  textarea { width:100%; background:#161b22; color:#e6e6e6; border:1px solid #2d333b; border-radius:8px; padding:12px; font-family:Consolas, monospace; font-size:.85rem; resize:vertical; }
+  #seal { height:220px; } #output { height:90px; }
+  button { margin-top:18px; padding:12px 28px; font-size:1rem; font-weight:600; color:#0e1116; background:#e6e6e6; border:none; border-radius:8px; cursor:pointer; }
+  button:hover { background:#fff; }
+  #result { margin-top:24px; padding:18px; border-radius:10px; display:none; line-height:1.6; font-size:.95rem; }
+  .pass { display:block!important; background:#0c2b16; border:1px solid #1f6b38; }
+  .fail { display:block!important; background:#2b0c0c; border:1px solid #6b1f1f; }
+  .big { font-size:1.15rem; font-weight:700; }
+  .mono { font-family:Consolas, monospace; font-size:.8rem; color:#8a8f98; word-break:break-all; }
+  .foot { margin-top:40px; font-size:.75rem; color:#565c66; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Causal Seal Verifier</h1>
+  <div class="sub">Level-1 integrity check, computed entirely in your browser — nothing is sent anywhere. Format: causal-seal/1.0 (draft).</div>
+
+  <label>Seal (JSON)</label>
+  <textarea id="seal" placeholder='{"spec":"causal-seal/1.0", ... ,"fingerprint":"..."}'></textarea>
+
+  <label>Output text (optional — checks the seal is bound to this exact output)</label>
+  <textarea id="output" placeholder="Paste the AI response the seal is supposed to cover…"></textarea>
+
+  <button onclick="verify()">Verify</button>
+  <div id="result"></div>
+
+  <div class="foot">Causal Seal v1.0-draft reference verifier · integrity (L1) only — authenticity (L2) requires signature verification against the emitter's published key. A valid seal proves the record is intact and bound; it does not by itself prove the emitter's claims are virtuous (SPEC §7).</div>
+</div>
+
+<script>
+const REQUIRED = ["spec","emitter","timestamp","output_hash","causal_state","dictionary","fingerprint"];
+const CLASSES = ["identity.","engine.","field.","shaping.","context.","x."];
+
+// RFC 8785 (JCS) is defined on ECMAScript JSON serialization; for the string-valued
+// members a seal contains, canonical form = sorted keys, no whitespace.
+function canonicalize(v){
+  if (typeof v === "string") return JSON.stringify(v);
+  if (v && typeof v === "object" && !Array.isArray(v)){
+    return "{" + Object.keys(v).sort().map(k => JSON.stringify(k)+":"+canonicalize(v[k])).join(",") + "}";
+  }
+  throw new Error("seal members must be strings or objects of strings");
+}
+
+async function sha256hex(str){
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
+  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2,"0")).join("");
+}
+
+function show(ok, lines){
+  const r = document.getElementById("result");
+  r.className = ok ? "pass" : "fail";
+  r.innerHTML = "<div class='big'>" + (ok ? "🟢 Seal intact" : "🔴 Verification failed") + "</div>" + lines.join("<br>");
+}
+
+async function verify(){
+  try {
+    const seal = JSON.parse(document.getElementById("seal").value);
+    for (const m of REQUIRED) if (!(m in seal)) return show(false, [`Missing required member: <b>${m}</b>`]);
+    if (seal.spec !== "causal-seal/1.0") return show(false, [`Unknown spec id: ${seal.spec}`]);
+    for (const [k,v] of Object.entries(seal.causal_state)){
+      if (!CLASSES.some(c => k.startsWith(c))) return show(false, [`Parameter outside defined classes: <b>${k}</b>`]);
+      if (typeof v !== "string") return show(false, [`Parameter <b>${k}</b> is not a string`]);
+    }
+    const body = {};
+    for (const [k,v] of Object.entries(seal)) if (k !== "fingerprint" && k !== "signature") body[k] = v;
+    const expected = await sha256hex(canonicalize(body));
+    if (expected !== seal.fingerprint)
+      return show(false, ["Fingerprint mismatch — the seal or its causal state was altered after emission.",
+                          `<span class='mono'>expected&nbsp;: ${expected}</span>`,
+                          `<span class='mono'>in seal&nbsp;&nbsp;&nbsp;: ${seal.fingerprint}</span>`]);
+    const lines = [`Integrity verified (Level 1). Declared emitter: <b>${seal.emitter}</b> · emitted ${seal.timestamp}`,
+                   `${Object.keys(seal.causal_state).length} causal parameters sealed · dictionary: <span class='mono'>${seal.dictionary}</span>`];
+    const out = document.getElementById("output").value;
+    if (out.length){
+      const oh = await sha256hex(out);
+      if (oh !== seal.output_hash) return show(false, ["Fingerprint valid, but the seal is <b>not bound to this output</b> — the pasted text differs from the sealed one."]);
+      lines.push("Output binding verified — this exact text is the one that was sealed.");
+    }
+    show(true, lines);
+  } catch(e){ show(false, ["Invalid input: " + e.message]); }
+}
+</script>
+</body>
+</html>

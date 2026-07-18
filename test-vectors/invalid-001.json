@@ -1,0 +1,17 @@
+{
+  "spec": "causal-seal/1.0",
+  "emitter": "example-engine/1.0",
+  "timestamp": "2026-07-17T14:00:00.000Z",
+  "output_hash": "63b6530c4afbe3545db2e0173e91cda673ee93001f0c597e73e9820507096bc3",
+  "causal_state": {
+    "identity.expert": "CORP",
+    "identity.confidence": "0.87",
+    "engine.model": "example-model-7b",
+    "field.regime": "stable",
+    "shaping.depth": "3",
+    "shaping.guard": "nominal",
+    "context.memory_state": "awake"
+  },
+  "dictionary": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "fingerprint": "81d931140be9a128df3091479b61aa7b496c7fc023104e57d4a5ebd4cae3740a"
+}

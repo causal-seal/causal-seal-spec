@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "causal-seal"
+version = "0.1.0"
+description = "Reference implementation of the Causal Seal format — decision provenance for governed generation (emitter + Level-1 verifier)."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "M. H. EL hamiani" }]
+keywords = ["ai", "provenance", "audit", "eu-ai-act", "traceability", "governance"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Topic :: Security :: Cryptography",
+]
+
+[project.scripts]
+causal-seal = "causal_seal:cli"
+
+[tool.setuptools]
+py-modules = ["causal_seal"]

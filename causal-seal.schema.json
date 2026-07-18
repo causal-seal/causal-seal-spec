@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://causalseal.org/schema/causal-seal-1.0.json",
+  "title": "Causal Seal v1.0",
+  "description": "A verifiable record binding a generated output to the causal parameters that governed its generation. See SPEC.md.",
+  "type": "object",
+  "required": ["spec", "emitter", "timestamp", "output_hash", "causal_state", "dictionary", "fingerprint"],
+  "additionalProperties": false,
+  "properties": {
+    "spec": { "const": "causal-seal/1.0" },
+    "emitter": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "output_hash": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "causal_state": {
+      "type": "object",
+      "minProperties": 3,
+      "propertyNames": { "pattern": "^(identity|engine|field|shaping|context|x)\\.[A-Za-z0-9_.-]+$" },
+      "additionalProperties": { "type": "string", "maxLength": 4096 }
+    },
+    "dictionary": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "fingerprint": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "signature": { "type": "string", "pattern": "^[0-9a-f]{128}$" }
+  }
+}

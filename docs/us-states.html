@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>US state AI regimes — Causal Seal</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='none' stroke='%231f6b38' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='8' fill='none' stroke='%231f6b38' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='2.5' fill='%231f6b38'/%3E%3C/svg%3E">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#0e1116;color:#e6e6e6;line-height:1.65}
+  .nav{border-bottom:1px solid #2d333b;padding:14px 16px;position:sticky;top:0;background:#0e1116cc;backdrop-filter:blur(8px);z-index:10}
+  .nav .in{max-width:820px;margin:0 auto;display:flex;flex-wrap:wrap;gap:16px;align-items:center;font-size:.85rem}
+  .nav a{color:#8a8f98;text-decoration:none}.nav a:hover{color:#e6e6e6}
+  .nav .brand{font-weight:700;color:#e6e6e6;margin-right:auto;display:flex;align-items:center;gap:7px}
+  .wrap{max-width:820px;margin:0 auto;padding:44px 16px}
+  h1{font-size:1.7rem;margin-bottom:8px}
+  .lead{color:#8a8f98;font-size:1.05rem;margin-bottom:30px}
+  h2{font-size:1.2rem;margin:30px 0 10px;padding-top:10px;border-top:1px solid #2d333b}
+  p{margin-bottom:12px}
+  .k{color:#3fb96a;font-weight:600}
+  .note{background:#12181f;border-left:3px solid #1f6b38;border-radius:6px;padding:14px 16px;margin:18px 0;color:#aab0b8;font-size:.92rem}
+  .warn{background:#1f1a0c;border-left:3px solid #6b5a1f;border-radius:6px;padding:14px 16px;margin:18px 0;color:#c9bd90;font-size:.9rem}
+  .foot{max-width:820px;margin:40px auto 0;padding:16px;border-top:1px solid #2d333b;font-size:.75rem;color:#565c66}
+  a.inline{color:#3fb96a}
+  ul{margin:10px 0 12px 22px}li{margin-bottom:8px}
+</style>
+</head>
+<body>
+<div class="nav"><div class="in">
+  <a class="brand" href="index.html"><svg width="20" height="20" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="none" stroke="#3fb96a" stroke-width="2"/><circle cx="16" cy="16" r="8" fill="none" stroke="#3fb96a" stroke-width="2"/><circle cx="16" cy="16" r="2.5" fill="#3fb96a"/></svg>Causal Seal</a>
+  <a href="about.html">What it is</a>
+  <a href="ai-act.html">EU AI Act</a>
+  <a href="nist.html">NIST</a>
+  <a href="us-states.html">US states</a>
+  <a href="faq.html">FAQ</a>
+  <a href="verify.html">Verify</a>
+</div></div>
+
+<div class="wrap">
+<h1>The US state patchwork</h1>
+<p class="lead">Absent a single federal AI statute, US obligations arrive state by state. The common thread across the serious ones is documentation: developers and deployers must be able to <span class="k">show their work</span> on consequential automated decisions.</p>
+
+<h2>Colorado AI Act (SB 24-205)</h2>
+<p>The first comprehensive US state AI law. It imposes a duty of reasonable care on developers and deployers of <b>high-risk AI systems</b> — those making, or substantially factoring into, <b>consequential decisions</b> (employment, lending, housing, healthcare, insurance, education, legal services). Core duties include impact documentation, disclosure to affected consumers, and the ability to explain the role AI played in an adverse decision.</p>
+<p>Explaining the role AI played in a specific adverse decision is exactly what a per-decision causal record enables: not a general model description, but the <span class="k">specific</span> configuration that governed <span class="k">that</span> output.</p>
+
+<h2>The broader pattern</h2>
+<p>Beyond Colorado, a growing set of state measures converge on the same evidentiary need:</p>
+<ul>
+<li><b>Automated employment decision rules</b> (e.g. New York City's Local Law 144) — bias audits and record-keeping for hiring tools.</li>
+<li><b>Consumer and profiling provisions</b> in state privacy laws (California and others) — rights around automated decision-making and profiling.</li>
+<li><b>Sector rules</b> in insurance and lending — anti-discrimination documentation for algorithmic underwriting and scoring.</li>
+</ul>
+<p>Each speaks a different legal dialect, but each ultimately asks the operator to produce durable, per-decision evidence of how an automated decision was reached.</p>
+
+<div class="note"><b>One record, many regimes.</b> The value of an open, model-agnostic decision-provenance format is precisely here: a single technical artifact — the Causal Seal — that an operator can generate once and map onto the EU AI Act, the NIST RMF, and this US patchwork alike, instead of re-instrumenting for each.</p></div>
+
+<div class="warn">Effective dates, covered entities, and exact duties vary by state and are being amended frequently. Treat this page as orientation, not as a compliance determination.</div>
+
+<p style="margin-top:20px"><a class="inline" href="faq.html">→ Compliance FAQ</a> · <a class="inline" href="ai-act.html">→ EU AI Act</a></p>
+</div>
+
+<div class="foot">Causal Seal — an open standard for decision provenance. <b>Informational only; not legal advice.</b> Consult qualified counsel for the regimes applicable to your organization. DOI <a href="https://doi.org/10.5281/zenodo.21431267" style="color:#565c66">10.5281/zenodo.21431267</a>.</div>
+</body>
+</html>

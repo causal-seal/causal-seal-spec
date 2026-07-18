@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What is decision provenance? — Causal Seal</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='none' stroke='%231f6b38' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='8' fill='none' stroke='%231f6b38' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='2.5' fill='%231f6b38'/%3E%3C/svg%3E">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#0e1116;color:#e6e6e6;line-height:1.65}
+  .nav{border-bottom:1px solid #2d333b;padding:14px 16px;position:sticky;top:0;background:#0e1116cc;backdrop-filter:blur(8px);z-index:10}
+  .nav .in{max-width:820px;margin:0 auto;display:flex;flex-wrap:wrap;gap:16px;align-items:center;font-size:.85rem}
+  .nav a{color:#8a8f98;text-decoration:none}.nav a:hover{color:#e6e6e6}
+  .nav .brand{font-weight:700;color:#e6e6e6;margin-right:auto;display:flex;align-items:center;gap:7px}
+  .wrap{max-width:820px;margin:0 auto;padding:44px 16px}
+  h1{font-size:1.7rem;margin-bottom:8px}
+  .lead{color:#8a8f98;font-size:1.05rem;margin-bottom:30px}
+  h2{font-size:1.2rem;margin:30px 0 10px;padding-top:10px;border-top:1px solid #2d333b}
+  p{margin-bottom:12px}
+  .box{background:#161b22;border:1px solid #2d333b;border-radius:10px;padding:16px 18px;margin:16px 0}
+  .k{color:#3fb96a;font-weight:600}
+  code{font-family:Consolas,monospace;font-size:.85rem;background:#161b22;padding:1px 5px;border-radius:4px}
+  .foot{max-width:820px;margin:40px auto 0;padding:16px;border-top:1px solid #2d333b;font-size:.75rem;color:#565c66}
+  a.inline{color:#3fb96a}
+</style>
+</head>
+<body>
+<div class="nav"><div class="in">
+  <a class="brand" href="index.html"><svg width="20" height="20" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="none" stroke="#3fb96a" stroke-width="2"/><circle cx="16" cy="16" r="8" fill="none" stroke="#3fb96a" stroke-width="2"/><circle cx="16" cy="16" r="2.5" fill="#3fb96a"/></svg>Causal Seal</a>
+  <a href="about.html">What it is</a>
+  <a href="ai-act.html">EU AI Act</a>
+  <a href="nist.html">NIST</a>
+  <a href="us-states.html">US states</a>
+  <a href="faq.html">FAQ</a>
+  <a href="verify.html">Verify</a>
+</div></div>
+
+<div class="wrap">
+<h1>What is decision provenance?</h1>
+<p class="lead">Provenance answers the question "where did this come from?" — but until now, only for content. Decision provenance extends it to the one thing generative AI never explained: <span class="k">why</span> it produced a given output.</p>
+
+<h2>The gap</h2>
+<p>Two mature families of trust technology already exist. <b>Content provenance</b> (the C2PA standard) proves where a media artifact came from and whether it was edited. <b>Log integrity</b> (hash-chained audit logs) proves that a stored record has not been altered. Both are valuable. Neither answers the question a regulator, a court, or an auditor now asks of an AI system: <i>why did it decide this?</i></p>
+<p>A faithful log of an unexplained decision is still an unexplained decision — faithfully logged. The missing layer is the provenance of the <b>decision itself</b>: the configuration of control that produced this output rather than another.</p>
+
+<h2>The idea</h2>
+<p>A <b>Causal Seal</b> is a small, verifiable record attached to a single AI output. It cryptographically binds together three things: the output, the <span class="k">causal parameters</span> that governed its generation (who answered, with what model, under which constraints, seeing what context, when), and the moment of emission. Anyone can verify a seal's integrity — with no access to the model, its weights, or any private system.</p>
+
+<div class="box">
+<p style="margin:0"><b>The causality criterion.</b> A parameter belongs in a seal only if it is genuinely causal: <i>had it held a different value at generation time, the output could have been different.</i> Descriptive statistics computed after the fact (word counts, readability scores) are excluded by definition. This single rule is what separates decision provenance from decoration.</p>
+</div>
+
+<h2>How it works, plainly</h2>
+<p>Each output is accompanied by a compact record whose fields describe the decision. That record is condensed into a <b>fingerprint</b> (a SHA-256 hash) — a short string that changes completely if any field is altered. To verify, anyone recomputes the fingerprint and compares: a match proves the record is intact and bound to that exact output. An optional signature proves <i>which</i> emitter produced it. You can try this yourself, in your browser, on the <a class="inline" href="verify.html">verifier page</a> — nothing is sent anywhere.</p>
+
+<h2>What a seal proves — and what it does not</h2>
+<p>A seal proves <b>binding, not virtue</b>. It makes an emitter's claims about its own decision fixed and auditable; it does not, by itself, prove those claims are wise or correct. Trust is anchored the way web security anchors it: the padlock proves the channel, not the honesty of the merchant. Genuine trust is built on top — through public parameter dictionaries, cooperative audits, runtime attestation, and certification.</p>
+
+<h2>Why "governed generation"</h2>
+<p>Decision provenance is only meaningful when there is a decision to seal. The pattern assumes a system that <b>governs</b> generation deterministically — that computes an explicit control state before the model writes, rather than leaving the model to be judge and author at once. Where that governance exists, the causal state is small, explicit, and worth sealing. The format is open and model-agnostic: it works over any underlying model, from any vendor.</p>
+
+<p style="margin-top:24px"><a class="inline" href="ai-act.html">→ How this maps to the EU AI Act</a> · <a class="inline" href="https://github.com/causal-seal/causal-seal-spec/blob/main/SPEC.md">Read the full specification</a></p>
+</div>
+
+<div class="foot">Causal Seal — an open standard for decision provenance. Specification CC BY 4.0 · reference code MIT · <a href="https://doi.org/10.5281/zenodo.21431267" style="color:#565c66">DOI 10.5281/zenodo.21431267</a>. This page is informational and is not legal advice.</div>
+</body>
+</html>

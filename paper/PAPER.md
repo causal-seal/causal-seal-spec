@@ -1,7 +1,7 @@
 # Causal Seals: Decision Provenance for Governed Generation
 
-**M. H. EL hamiani** — BATEN Technologies, Rabat, Morocco
-*Draft — not yet submitted. Target: arXiv cs.CY (Computers and Society), cross-list cs.CR.*
+**Mohammed-Hounaïne EL HAMIANI-KHATAT** — BATEN Technologies, Rabat, Morocco
+*Preprint — July 2026. DOI: [10.5281/zenodo.21431267](https://doi.org/10.5281/zenodo.21431267). Specification, schema, test vectors and reference implementation: https://github.com/causal-seal/causal-seal-spec · https://causalseal.org*
 
 ---
 
@@ -75,4 +75,6 @@ Between "trust the model" and "read the weights" there is a third road: govern t
 
 ## References
 
-*(To be completed at submission: EU AI Act (Regulation 2024/1689) Articles 12, 19; NIST AI RMF 1.0; C2PA specification; RFC 8785 (JCS); RFC 2119; RFC 3161; IETF SCITT and RATS working documents; representative literature on RLHF, guided decoding, watermarking, zkML; [SPEC] the Causal Seal specification v1.0.)*
+[SPEC] *The Causal Seal Format — Open Specification v1.0-draft*, 2026. https://github.com/causal-seal/causal-seal-spec
+
+*(Full bibliography in preparation for the journal version: EU AI Act (Regulation 2024/1689) Articles 12, 19; NIST AI RMF 1.0; C2PA specification; RFC 8785 (JCS); RFC 2119; RFC 3161; IETF SCITT and RATS working documents; representative literature on RLHF, guided decoding, watermarking, zkML.)*

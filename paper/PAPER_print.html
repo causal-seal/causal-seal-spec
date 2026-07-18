@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Causal Seals: Decision Provenance for Governed Generation</title>
+<style>
+  @page { size: A4; margin: 24mm 21mm; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: Georgia, "Times New Roman", serif; color:#1a1a1a; font-size:10.5pt; line-height:1.55; max-width:172mm; margin:0 auto; padding:20px; }
+  h1 { font-size:15pt; line-height:1.3; margin-bottom:8px; }
+  .byline { font-size:10pt; margin-bottom:2px; }
+  .links { font-size:8.5pt; color:#555; font-style:italic; margin-bottom:20px; }
+  .abstract { border-top:1.5px solid #1a1a1a; border-bottom:0.5px solid #999; padding:12px 0; margin-bottom:20px; }
+  .abstract .t { font-variant:small-caps; letter-spacing:1.5px; font-weight:bold; font-size:9.5pt; }
+  .abstract p { font-size:9.5pt; text-align:justify; margin-top:6px; }
+  h2 { font-size:11.5pt; margin:18px 0 6px; }
+  p { margin-bottom:8px; text-align:justify; }
+  blockquote { margin:10px 24px; font-style:italic; }
+  .refs { font-size:9pt; color:#333; margin-top:6px; }
+  .foot { margin-top:26px; padding-top:6px; border-top:0.5px solid #999; font-size:8pt; color:#666; }
+  code { font-family:Consolas, monospace; font-size:9.5pt; }
+</style>
+</head>
+<body>
+
+<h1>Causal Seals: Decision Provenance for Governed Generation</h1>
+<div class="byline"><b>M. H. EL hamiani</b> — BATEN Technologies, Rabat, Morocco</div>
+<div class="links">Preprint — July 2026. Specification, schema, test vectors and reference implementation: github.com/causal-seal/causal-seal-spec · causalseal.org</div>
+
+<div class="abstract">
+<span class="t">Abstract</span>
+<p>Two families of standards address trust in AI-produced artifacts: content provenance (C2PA) proves <i>where an artifact comes from</i>, and integrity protocols prove <i>that a record was not altered</i>. Neither answers the question that regulators have now made statutory for high-risk AI systems: <b><i>why</i> did the system produce this specific output?</b> We introduce <b>decision provenance</b>: a verifiable binding between a generated output and the <b>causal parameters</b> that governed its generation. We describe (i) <i>governed generation</i>, an architectural pattern that decouples deterministic control from stochastic text execution; (ii) the <b>Causal Seal</b>, an open, model-agnostic format that binds output, causal state and emission time under a recomputable SHA-256 fingerprint; and (iii) a zero-dependency reference implementation with computed test vectors, alongside a production deployment that has sealed every generated response since mid-2026. We map the format onto the record-keeping obligations of the EU AI Act (Articles 12 and 19), enforceable for high-risk systems as of 2 August 2026, and discuss what a seal does and does not prove. The specification, schema, vectors and implementation are released for community review.</p>
+</div>
+
+<h2>1. Introduction</h2>
+<p>Large language models fail in a way that is more corrosive than error: they fail <i>unaccountably</i>. When a generation is wrong, no artifact explains which decision path produced it; when it is right, no artifact proves that the path was legitimate. The consequence is a permanent entitlement to doubt — and doubt is not repaired by better answers, only by proofs.</p>
+<p>Regulation has moved faster than infrastructure. The EU AI Act requires high-risk AI systems to support automatic event recording ensuring "traceability of the functioning" of the system (Article 12) and the retention of those records (Article 19), with obligations enforceable from 2 August 2026. Comparable duties are emerging in United States state law and in procurement regimes anchored to the NIST AI Risk Management Framework. Yet the law prescribes the <i>obligation</i>, not the <i>technical form of a valid proof</i>. Content provenance standards protect media artifacts; audit-log protocols protect the integrity of records. The provenance of the <b>decision</b> — the configuration of control that made this output rather than another — has no open format.</p>
+<p>This paper proposes one. Our contributions are deliberately modest in kind and, we believe, useful in consequence: a named architectural pattern, a small open format with a strict causality criterion, a reference implementation anyone can embed, and an honest account of the limits.</p>
+
+<h2>2. Related work</h2>
+<p><b>Alignment and fine-tuning</b> (RLHF and successors) shape model behavior at training time; the resulting dispositions are neither inspectable per-response nor bound to outputs. <b>Guided decoding and guardrails</b> intervene at inference, but predominantly on the token distribution or on the final text, post-hoc; the intervention itself is rarely recorded in verifiable form. <b>Watermarking</b> detects machine origin without explaining machine reasoning. <b>C2PA</b> binds provenance metadata to media content — the right structure, aimed at a different object. <b>Hash-chained audit logs</b> and emerging cryptographic audit-trail protocols make records tamper-evident; they protect the diary, not the <i>why</i> — a faithful log of an unexplained decision is an unexplained decision, faithfully logged. <b>zkML</b> proves that a computation was executed correctly, which is orthogonal to proving which governing state ordered it. <b>IETF SCITT and RATS</b> provide transparency registration and environment attestation into which the present format slots naturally (§6).</p>
+<p>To our knowledge, no open, model-agnostic format binds a generated output to the causal state of a <i>governance layer</i> under a publicly recomputable fingerprint.</p>
+
+<h2>3. The governed generation pattern</h2>
+<p>The pattern rests on one decoupling: <b>control of the reasoning trajectory is separated from linguistic execution.</b> A governance layer — implemented as deterministic state transitions over an explicit state (pure functions: same inputs, same outputs, no random draw in the control path) — computes, before and during generation, the configuration that will govern the response: which expert or route answers, under which regime and constraints, seeing which context. The language model executes text <i>under</i> that configuration; it is the executor of a trajectory, not the source of its own government.</p>
+<p>This decoupling has a consequence that makes provenance meaningful: the governing configuration is <b>small, explicit, and frozen at emission time</b>. We call it the <b>causal state</b>, and we admit into it only parameters satisfying the <b>causality criterion</b>:</p>
+<blockquote>Had this parameter held a different value at generation time, the output could have been different.</blockquote>
+<p>Post-hoc descriptors of the output (token counts, readability scores) fail the criterion and are excluded by definition. The criterion is what separates decision provenance from decoration.</p>
+<p>Two properties follow. First, <b>model- and temperature-independence</b>: whether the underlying model samples at temperature 0 or 1.2, the causal structure that ordered the task is fixed, transparent, auditable. Traceability does not require the model to be deterministic. Second, <b>conditional reproducibility</b>, which we state with care: where the full decoding path is controlled (own model, greedy decoding), identical causal states yield bit-identical text; on third-party sampled infrastructure this guarantee does not hold, and the contribution is causal traceability — <i>not</i> text reproduction. We regard stating this boundary as part of the contribution.</p>
+
+<h2>4. The Causal Seal format</h2>
+<p>The format is specified normatively elsewhere [SPEC]; we summarize its shape.</p>
+<p>A seal is a small JSON object binding: a spec identifier, an emitter identifier, an ISO-8601 emission timestamp, the SHA-256 hash of the output (the output itself need not travel), the causal state, a reference to the emitter's <b>parameter dictionary</b>, and a fingerprint. The fingerprint is SHA-256 over the RFC 8785 (JCS) canonical serialization of the seal minus the fingerprint and optional signature — so two independent implementations serialize the same seal to the same bytes.</p>
+<p><b>Parameter classes.</b> Causal parameters are namespaced into six classes that answer an investigator's questions: <code>identity.*</code> (<i>who</i> answered — route, expert, confidence), <code>engine.*</code> (<i>with what</i> — the executing model), <code>field.*</code> (<i>around what</i> — the semantic field state), <code>shaping.*</code> (<i>how</i> — depth, fluidity, constraint filters, guard state), <code>context.*</code> (<i>seeing what</i> — the memory actually visible to the model), and the timestamp (<i>when</i>).</p>
+<p><b>The dictionary.</b> Sealed values are auditable only if their meaning is public. Emitters must publish a dictionary giving, for each parameter: meaning, value domain, quantization. The dictionary discloses what a parameter <i>means</i> — not how the emitter <i>computes</i> it. This line is deliberate: it makes audit possible while leaving the engineering of good governance to competition. Mechanisms public in kind, calibration private in value.</p>
+<p><b>Verification</b> proceeds at three levels: <b>L1 integrity</b> (recompute the fingerprint — requires nothing but the seal), <b>L2 authenticity</b> (Ed25519 signature by the emitter's published key), <b>L3 causal audit</b> (cooperative: where the emitter's control path is deterministic, an auditor re-derives the same causal state from the same input). L3 is a property of emitters that the format makes <i>checkable</i> by giving auditors a precise target.</p>
+
+<h2>5. Reference implementation and deployment</h2>
+<p>The release accompanying this paper contains the specification, a JSON Schema, <b>computed test vectors</b> — a valid seal with its exact expected fingerprint, and a tampered seal that must fail — and a <b>reference implementation in a single dependency-free Python file</b> (emitter, Level-1 verifier, self-test), together with a browser-based public verifier computing entirely client-side. The self-test verifies the implementation against the vectors; any independent implementation can do the same.</p>
+<p>Separately, a production conversational system operated by the author's organization has emitted a seal for every generated response since mid-2026, over a causal state of sixteen entries spanning the six classes. We report this not as evaluation but as an existence proof: the pattern and format run in production, at interactive latency, over third-party and local models alike.</p>
+
+<h2>6. Regulatory and infrastructure mapping</h2>
+<p><b>EU AI Act.</b> Article 12 requires automatic recording of events ensuring traceability of functioning, identification of risk-relevant situations, and support for post-market monitoring; Article 19 requires providers to retain these logs. A seal per output, covering who/with-what/how/seeing-what/when, integrity-protected and optionally authenticated, addresses the technical core of these duties. We state the scope honestly: the format supplies the <i>capability</i> Article 12 presupposes; conformity of a deployed system remains its operator's obligation.</p>
+<p><b>NIST AI RMF and US state regimes</b> map similarly onto the Govern and Measure functions and onto documentation duties for consequential automated decisions.</p>
+<p><b>Infrastructure.</b> A seal is a natural payload for a SCITT signed statement (transparency, trusted time, non-equivocation); RATS-style attestation strengthens L2 into "which emitter, on which attested stack". Trusted timestamps may be added by RFC 3161 countersignature or append-only anchoring.</p>
+
+<h2>7. What a seal does not prove — limitations</h2>
+<p><b>A seal proves binding, not virtue.</b> An emitter can seal meaningless parameters; the seal makes its claims fixed and auditable, not true. Trust is anchored the way transport security anchors it — the padlock proves the channel, not the merchant — through public dictionaries, L3 audits, attestation, and certification ecosystems. <b>Timestamps</b> are emitter-asserted absent countersignature. <b>Dictionary semantics</b> are not yet standardized across emitters; inter-emitter comparability of causal states is an open problem, as is the definition of domain profiles (which parameters a medical or financial deployment should minimally seal). <b>The pattern presupposes a governance layer</b>; retrofitting seals onto ungoverned pipelines yields thin causal states — arguably a feature, since the seal makes the thinness visible.</p>
+
+<h2>8. Conclusion</h2>
+<p>Between "trust the model" and "read the weights" there is a third road: govern the generation deterministically, and seal the government. The format proposed here is small on purpose — small enough to implement in an afternoon, strict enough that what it proves is worth proving. The specification, schema, vectors and reference implementation are open; we invite implementation, criticism, and the definition of domain profiles by the communities that will have to live with the results.</p>
+
+<h2>References</h2>
+<p class="refs">[SPEC] <i>The Causal Seal Format — Open Specification v1.0-draft</i>, 2026. github.com/causal-seal/causal-seal-spec</p>
+<p class="refs"><i>(Full bibliography in preparation for the journal version: EU AI Act (Regulation 2024/1689) Articles 12, 19; NIST AI RMF 1.0; C2PA specification; RFC 8785 (JCS); RFC 2119; RFC 3161; IETF SCITT and RATS working documents; representative literature on RLHF, guided decoding, watermarking, zkML.)</i></p>
+
+<div class="foot">Preprint — July 2026 · Spec text CC BY 4.0, code MIT · Contact: contact@batenai.com · First conformant implementation: chat.baten.ai</div>
+
+</body>
+</html>

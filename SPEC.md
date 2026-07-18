@@ -9,6 +9,7 @@
 | **Date** | 2026-07-17 |
 | **Editor** | M. H. EL hamiani (BATEN Technologies, Rabat) |
 | **License** | This specification text: CC BY 4.0. See §9 for implementation and IP notes. |
+| **Companion paper** | [10.5281/zenodo.21431267](https://doi.org/10.5281/zenodo.21431267) |
 
 ---
 

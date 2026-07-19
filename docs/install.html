@@ -83,6 +83,13 @@ print(ok, reason)
 <span class="g">causal-seal</span> verify seal.json --output-file out.txt
 <span class="g">causal-seal</span> selftest                     <span class="c"># check against the test vectors</span></pre>
 
+<h2>Zero code: the gateway</h2>
+<p>Don't want to touch your app at all? Put the <a class="inline" href="https://github.com/causal-seal/causal-seal-gateway">Causal Seal Gateway</a> in front of your model — a drop-in, OpenAI-compatible proxy. Every response comes back sealed (streaming included), with no code change:</p>
+<pre><span class="g">docker run</span> -p 8080:8080 -e CAUSAL_UPSTREAM=https://api.openai.com causal-seal-gateway
+<span class="c"># then point your app at it:</span>
+OPENAI_BASE_URL=http://localhost:8080</pre>
+<p>Non-streaming responses carry the seal in an <code>X-Causal-Seal</code> header; streaming responses get a final <code>event: causal-seal</code> just before <code>[DONE]</code>. <span style="color:#8a8f98">A proxy seals what it observes from the outside (a thin seal); a rich seal needs a governance layer upstream.</span></p>
+
 <h2>No install? Verify in the browser</h2>
 <p>Auditors and reviewers can check any seal with zero setup — the <a class="inline" href="verify.html">browser verifier</a> runs entirely client-side and sends nothing anywhere.</p>
 

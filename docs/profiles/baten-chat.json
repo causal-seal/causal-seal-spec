@@ -1,0 +1,76 @@
+{
+  "profile": "baten-chat",
+  "emitter": "baten-chat/1.0",
+  "spec": "causal-seal/1.0",
+  "description": "Parameter dictionary for seals emitted by chat.baten.ai. Declares the MEANING, value domain and quantization of each causal parameter — not how it is computed. Published per Causal Seal SPEC §3.3.",
+  "parameters": {
+    "identity.expert": {
+      "meaning": "The behavioral expert profile selected to answer.",
+      "domain": ["ORIG", "TECH", "CORP", "PSYC", "NARR", "POET", "KINE", "MINI"]
+    },
+    "identity.adapter": {
+      "meaning": "The specific adapter/brain loaded to embody the selected expert.",
+      "domain": "string"
+    },
+    "identity.confidence": {
+      "meaning": "The router's confidence in the expert selection.",
+      "domain": "0.00–1.00",
+      "quantization": "2 decimals"
+    },
+    "identity.persona_mix": {
+      "meaning": "When present, the named blend of adapters composing a custom persona.",
+      "domain": "string",
+      "optional": true
+    },
+    "engine.model": {
+      "meaning": "Identifier of the underlying language model that executed the text.",
+      "domain": "string"
+    },
+    "engine.temperature": {
+      "meaning": "When present, the sampling temperature applied.",
+      "domain": "0.00–2.00",
+      "quantization": "2 decimals",
+      "optional": true
+    },
+    "field.regime": {
+      "meaning": "The gravitational regime of the conversation's subject at emission time.",
+      "domain": ["nebula", "stable", "drifting", "bifurcation"]
+    },
+    "field.omega": {
+      "meaning": "Label of the dominant subject attractor (the conversation's center of gravity).",
+      "domain": "string"
+    },
+    "shaping.depth": {
+      "meaning": "Response length budget tier.",
+      "domain": "1–5"
+    },
+    "shaping.chromatic": {
+      "meaning": "The constraint plates engaged before emission (chromatic profile).",
+      "domain": "string"
+    },
+    "shaping.rheometer": {
+      "meaning": "Text fluidity setting, from solid (terse) to fluid (flowing).",
+      "domain": "string"
+    },
+    "shaping.torsion": {
+      "meaning": "Semantic guard state: whether the trajectory was corrected before emission.",
+      "domain": ["nominal", "corrected", "locked"]
+    },
+    "context.memory_state": {
+      "meaning": "The memory (Inemuri) state governing what context the model could see.",
+      "domain": ["awake", "light_nap", "deep_rem"]
+    },
+    "context.buffer": {
+      "meaning": "Number of recent messages held in live working memory.",
+      "domain": "integer"
+    },
+    "context.memories": {
+      "meaning": "Number of condensed memory summaries injected into context.",
+      "domain": "integer"
+    },
+    "context.condensed": {
+      "meaning": "Cumulative number of exchanges compressed since session start.",
+      "domain": "integer"
+    }
+  }
+}

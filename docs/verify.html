@@ -36,6 +36,13 @@
   <textarea id="output" placeholder="Paste the AI response the seal is supposed to cover…"></textarea>
 
   <button onclick="verify()">Verify</button>
+  <div id="examples" style="margin-top:14px;font-size:.82rem;color:#8a8f98">
+    No seal handy? Try an example —
+    <button type="button" onclick="loadExample('valid')" style="background:none;border:none;color:#3fb96a;cursor:pointer;padding:0;font-size:.82rem;text-decoration:underline">a valid seal</button>
+    ·
+    <button type="button" onclick="loadExample('tampered')" style="background:none;border:none;color:#c96;cursor:pointer;padding:0;font-size:.82rem;text-decoration:underline">a tampered seal</button>
+    <span style="color:#565c66"> — then press Verify.</span>
+  </div>
   <div id="result"></div>
 
   <div class="foot">Causal Seal v1.0-draft reference verifier · integrity (L1) only — authenticity (L2) requires signature verification against the emitter's published key. A valid seal proves the record is intact and bound; it does not by itself prove the emitter's claims are virtuous (SPEC §7).</div>
@@ -44,6 +51,26 @@
 <script>
 const REQUIRED = ["spec","emitter","timestamp","output_hash","causal_state","dictionary","fingerprint"];
 const CLASSES = ["identity.","engine.","field.","shaping.","context.","x."];
+
+// ─── Embedded examples (real, computed test vectors — verifiable offline) ───
+const EX_OUTPUT = "The sky appears blue because air molecules scatter short wavelengths of sunlight more strongly than long ones.";
+const EX_VALID = {
+  "spec":"causal-seal/1.0","emitter":"example-engine/1.0","timestamp":"2026-07-17T14:00:00.000Z",
+  "output_hash":"63b6530c4afbe3545db2e0173e91cda673ee93001f0c597e73e9820507096bc3",
+  "causal_state":{"identity.expert":"TECH","identity.confidence":"0.87","engine.model":"example-model-7b","field.regime":"stable","shaping.depth":"3","shaping.guard":"nominal","context.memory_state":"awake"},
+  "dictionary":"sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "fingerprint":"81d931140be9a128df3091479b61aa7b496c7fc023104e57d4a5ebd4cae3740a"
+};
+// Same seal, but a causal value was altered AFTER emission (expert TECH→CORP); fingerprint left unchanged → must fail.
+const EX_TAMPERED = JSON.parse(JSON.stringify(EX_VALID));
+EX_TAMPERED.causal_state["identity.expert"] = "CORP";
+
+function loadExample(kind){
+  const seal = kind === "valid" ? EX_VALID : EX_TAMPERED;
+  document.getElementById("seal").value = JSON.stringify(seal, null, 2);
+  document.getElementById("output").value = kind === "valid" ? EX_OUTPUT : "";
+  document.getElementById("result").style.display = "none";
+}
 
 // RFC 8785 (JCS) is defined on ECMAScript JSON serialization; for the string-valued
 // members a seal contains, canonical form = sorted keys, no whitespace.

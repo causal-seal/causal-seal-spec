@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Decision provenance for AI-driven science — Causal Seal</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='none' stroke='%231f6b38' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='8' fill='none' stroke='%231f6b38' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='2.5' fill='%231f6b38'/%3E%3C/svg%3E">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#0e1116;color:#e6e6e6;line-height:1.65}
+  .nav{border-bottom:1px solid #2d333b;padding:14px 16px;position:sticky;top:0;background:#0e1116cc;backdrop-filter:blur(8px);z-index:10}
+  .nav .in{max-width:820px;margin:0 auto;display:flex;flex-wrap:wrap;gap:16px;align-items:center;font-size:.85rem}
+  .nav a{color:#8a8f98;text-decoration:none}.nav a:hover{color:#e6e6e6}
+  .nav a.here{color:#3fb96a}
+  .nav .brand{font-weight:700;color:#e6e6e6;margin-right:auto;display:flex;align-items:center;gap:7px}
+  .wrap{max-width:820px;margin:0 auto;padding:44px 16px}
+  h1{font-size:1.7rem;margin-bottom:8px;text-wrap:balance}
+  .lead{color:#8a8f98;font-size:1.05rem;margin-bottom:30px}
+  h2{font-size:1.2rem;margin:30px 0 10px;padding-top:10px;border-top:1px solid #2d333b;text-wrap:balance}
+  p{margin-bottom:12px}
+  ul{margin:0 0 12px 20px}li{margin-bottom:6px}
+  .box{background:#161b22;border:1px solid #2d333b;border-radius:10px;padding:16px 18px;margin:16px 0}
+  .k{color:#3fb96a;font-weight:600}
+  code{font-family:Consolas,monospace;font-size:.85rem;background:#161b22;padding:1px 5px;border-radius:4px}
+  .foot{max-width:820px;margin:40px auto 0;padding:16px;border-top:1px solid #2d333b;font-size:.75rem;color:#565c66}
+  a.inline{color:#3fb96a}
+  blockquote{border-left:2px solid #2d333b;padding-left:14px;margin:14px 0;color:#8a8f98;font-style:italic}
+</style>
+</head>
+<body>
+<div class="nav"><div class="in">
+  <a class="brand" href="index.html"><svg width="20" height="20" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="none" stroke="#3fb96a" stroke-width="2"/><circle cx="16" cy="16" r="8" fill="none" stroke="#3fb96a" stroke-width="2"/><circle cx="16" cy="16" r="2.5" fill="#3fb96a"/></svg>Causal Seal</a>
+  <a href="install.html">Install</a>
+  <a href="about.html">What it is</a>
+  <a href="science.html" class="here">Science</a>
+  <a href="sectors.html">Sectors</a>
+  <a href="ai-act.html">EU AI Act</a>
+  <a href="nist.html">NIST</a>
+  <a href="us-states.html">US states</a>
+  <a href="faq.html">FAQ</a>
+  <a href="charter.html">Charter</a>
+  <a href="verify.html">Verify</a>
+  <a href="mailto:contact@causalseal.org">Contact</a>
+</div></div>
+
+<div class="wrap">
+<h1>Decision provenance for AI-driven science</h1>
+<p class="lead">The bottleneck in research has moved. AI agents now produce hypotheses, algorithms, and candidate solutions in abundance — the cost of a conjecture has collapsed. Validation has not. And part of validation was never physical: knowing <span class="k">how</span> a machine-generated claim was reached, how confident it was, and whether that reasoning can be re-examined. That is decision provenance.</p>
+
+<h2>The new bottleneck</h2>
+<p>Karl Popper described science as conjectures and refutations. Agentic AI has broken the symmetry of that pair. Conjectures are now cheap and near-infinite; refutations remain physical and institutional — slow, expensive, and paced by the laboratory. The validation deficit is widening, not closing.</p>
+<p>Beside the well-known wet-lab bottleneck sits a quieter one: the <b>epistemic-audit bottleneck</b>. A hypothesis a reviewer cannot trace is a hypothesis a reviewer cannot trust. A faithful log of an unexplained machine decision is still an unexplained decision — faithfully logged. What is missing is the provenance of the decision itself.</p>
+
+<h2>What the field is now asking for</h2>
+<p>Leading AI-for-science labs have converged, in 2026, on a concrete set of requirements for research agents. In their own terms, agents:</p>
+<ul>
+  <li>&ldquo;cannot behave as black boxes&hellip; they must <b>expose their reasoning</b> and act as transparent collaborators&rdquo;;</li>
+  <li>need <b>epistemic humility</b> — the ability to recognise their limits and <b>document their uncertainties</b>;</li>
+  <li>should be accompanied by <b>&ldquo;human&ndash;AI interaction cards&rdquo;</b>: short records detailing the actions and results behind key discoveries.</li>
+</ul>
+<p>Each of these requirements describes a <i>record</i> — one that must survive hand-off to a peer reviewer, a funder, or a regulator, and be checkable without access to the system that made it. Decision provenance is the open, verifiable form of that record.</p>
+
+<h2>The seal as an interaction card</h2>
+<p>A <b>Causal Seal</b> binds one AI-generated output — a hypothesis, a candidate compound, an algorithm, a proof sketch — to the <span class="k">causal parameters</span> that governed its generation (which model, under which constraints, seeing what context, driven by whom) and the moment of emission. Anyone can verify a seal's integrity with no access to the model, its weights, or any private system.</p>
+<p>That is, concretely, the interaction card the field is calling for: <b>portable, model-agnostic, and tamper-evident</b>. It travels with the claim from the agent that proposed it to the human who must decide whether it is worth a month of laboratory time.</p>
+
+<h2>Epistemic humility, made auditable</h2>
+<p>The most trusted scientific models — structure predictors are the canonical example — report a calibrated confidence for each part of each prediction, so researchers know when to rely on a result and when to fall back to other methods. A seal lets that <b>documented uncertainty travel with the claim and be verified after the fact</b>. It turns &ldquo;the system reported low confidence here&rdquo; from a footnote into an auditable, bound fact.</p>
+
+<div class="box">
+<p style="margin:0 0 8px"><b>What a seal does <i>not</i> do.</b> A seal does not run the experiment, grow the cell line, or replace the laboratory — physical refutation still sets the pace, and no record can accelerate a chemical reaction. Nor does a seal certify that a conjecture is correct.</p>
+<p style="margin:0">It proves <b>binding, not virtue</b>: it makes the provenance and the stated uncertainty of a machine-generated claim <i>fixed and examinable</i>. The wet-lab validates the world; the seal validates the record. The two are complementary — and only one of them is currently missing.</p>
+</div>
+
+<h2>Peer review under strain</h2>
+<p>Grant applications and papers are increasingly AI-assisted, and reviewers have noted that the quality of the writing is no longer a reliable filter for the quality of the thinking. The more freely an agent optimises a submission against a funder's stated criteria, the less the text reflects the researcher's own reasoning.</p>
+<p>Verifiable, documented AI use — interaction cards attached to the key claims of a result — restores a filter that prose no longer provides. It lets a reviewer ask not &ldquo;does this read well?&rdquo; but &ldquo;how was this reached, and how certain was the machine that reached it?&rdquo; This is the direction policy bodies are already pointing peer review toward.</p>
+
+<h2>Open, and owned by no one</h2>
+<p>The format is published under CC BY, its reference verifier under a permissive licence, and it privileges no emitter. Each laboratory, journal, or funding body defines <b>its own causal parameters</b> — its own dictionary — for its own domain; the standard fixes the container and the verification, not the science. A structure-prediction group and a materials-discovery consortium can both seal, in their own vocabulary, and both be checked by the same tool.</p>
+<p>This is the same trust pattern the web already relies on: an open format, a free verifier, and a public dictionary of meanings, so that adoption is a decision each institution makes for itself rather than a dependency on any single vendor.</p>
+
+<p style="margin-top:24px">
+  <a class="inline" href="about.html">What decision provenance is</a> ·
+  <a class="inline" href="verify.html">Verify a seal in your browser</a> ·
+  <a class="inline" href="ai-act.html">How this maps to the EU AI Act</a> ·
+  <a class="inline" href="https://github.com/causal-seal/causal-seal-spec/blob/main/SPEC.md">Read the full specification</a>
+</p>
+</div>
+
+<div class="foot">Causal Seal — an open standard for decision provenance. Specification CC BY 4.0 · reference code MIT · <a href="https://doi.org/10.5281/zenodo.21431267" style="color:#565c66">DOI 10.5281/zenodo.21431267</a>. This page is informational and is not legal advice. Concepts attributed to the AI-for-science community are drawn from public 2026 essays by frontier research labs.</div>
+</body>
+</html>

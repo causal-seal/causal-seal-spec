@@ -1,0 +1,14 @@
+# GitHub "Sponsor" button config for the Causal Seal open standard.
+# A line only renders a button once that account/platform is actually set up
+# and (for GitHub Sponsors) approved. Unset lines are harmless.
+
+# GitHub Sponsors — put the handle that has Sponsors ENABLED (org or user).
+github: [causal-seal]
+
+# Uncomment each as you create them (neutral identity, matching the GitHub org):
+# open_collective: causal-seal
+# liberapay: causal-seal
+# ko_fi: causalseal
+
+# Always-available link to the project (works immediately, no approval needed):
+custom: ["https://causalseal.org"]

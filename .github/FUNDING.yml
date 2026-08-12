@@ -1,11 +1,10 @@
 # GitHub "Sponsor" button config for the Causal Seal open standard.
 #
-# NOTE: GitHub Sponsors / Liberapay / Ko-fi all pay out via Stripe or PayPal,
-# neither of which supports receiving in Morocco — so those are omitted.
-# Open Collective (pays maintainers via Wise, which can reach Moroccan banks)
-# is the one donation rail worth trying; enable it and uncomment below.
+# NOTE: GitHub Sponsors is Stripe-only → not available in Morocco, so it's omitted.
+# PayPal works, so a PayPal.me link gives an instant donate button (no approval).
+# Ko-fi / Liberapay (PayPal payout) or Open Collective can be added later.
 
+# liberapay: causal-seal
 # open_collective: causal-seal
 
-# Always-available link to the project (no payment processor needed):
-custom: ["https://causalseal.org"]
+custom: ["https://causalseal.org", "https://paypal.me/souiqa"]

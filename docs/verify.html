@@ -27,7 +27,7 @@
 <body>
 <div class="wrap">
   <h1>Causal Seal Verifier</h1>
-  <div class="sub">Level-1 integrity check, computed entirely in your browser — nothing is sent anywhere. Format: causal-seal/1.0 (draft).</div>
+  <div class="sub">Level-1 integrity check, computed entirely in your browser — nothing is sent anywhere. Format: causal-seal/1.0.</div>
 
   <label>Seal (JSON)</label>
   <textarea id="seal" placeholder='{"spec":"causal-seal/1.0", ... ,"fingerprint":"..."}'></textarea>
@@ -45,7 +45,7 @@
   </div>
   <div id="result"></div>
 
-  <div class="foot">Causal Seal v1.0-draft reference verifier · integrity (L1) only — authenticity (L2) requires signature verification against the emitter's published key. A valid seal proves the record is intact and bound; it does not by itself prove the emitter's claims are virtuous (SPEC §7).</div>
+  <div class="foot">Causal Seal v1.0 reference verifier · integrity (L1) only — authenticity (L2) requires signature verification against the emitter's published key. A valid seal proves the record is intact and bound; it does not by itself prove the emitter's claims are virtuous (SPEC §7).</div>
 </div>
 
 <script>

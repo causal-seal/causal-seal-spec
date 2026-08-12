@@ -1,4 +1,4 @@
-# Test vectors — Causal Seal v1.0-draft
+# Test vectors — Causal Seal v1.0
 
 ## valid-001.json
 Output text (UTF-8): "The sky appears blue because air molecules scatter short wavelengths of sunlight more strongly than long ones."

@@ -2,3 +2,6 @@ dist/
 build/
 *.egg-info/
 __pycache__/
+
+# Notes stratégiques privées — NE JAMAIS publier (repo public)
+notes/

@@ -4,8 +4,8 @@
 
 | | |
 |---|---|
-| **Version** | 1.0-draft |
-| **Status** | Draft for community review |
+| **Version** | 1.0 |
+| **Status** | Open for community review |
 | **Date** | 2026-07-17 |
 | **Editor** | M. H. EL hamiani (BATEN Technologies, Rabat) |
 | **License** | This specification text: CC BY 4.0. See §9 for implementation and IP notes. |
@@ -197,8 +197,8 @@ Comparable mappings apply to NIST AI RMF (Govern/Measure functions) and to state
 
 ## Appendix A — Reference implementation
 
-A production system emitting seals conformant with the spirit of this draft (predating its canonicalization, being aligned for v1.0) is publicly observable at chat.baten.ai. The free reference verifier is available at causalseal.org/verify.html and in this repository (`causal_seal.py`, `docs/verify.html`).
+A production system emitting seals conformant with the spirit of this specification (predating its canonicalization, being aligned for v1.0) is publicly observable at chat.baten.ai. The free reference verifier is available at causalseal.org/verify.html and in this repository (`causal_seal.py`, `docs/verify.html`).
 
 ## Appendix B — Changelog
 
-- **1.0-draft (2026-07-17)** — first complete draft.
+- **1.0 (2026-07-17)** — first complete specification.

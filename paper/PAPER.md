@@ -75,6 +75,6 @@ Between "trust the model" and "read the weights" there is a third road: govern t
 
 ## References
 
-[SPEC] *The Causal Seal Format — Open Specification v1.0-draft*, 2026. https://github.com/causal-seal/causal-seal-spec
+[SPEC] *The Causal Seal Format — Open Specification v1.0*, 2026. https://github.com/causal-seal/causal-seal-spec
 
 *(Full bibliography in preparation for the journal version: EU AI Act (Regulation 2024/1689) Articles 12, 19; NIST AI RMF 1.0; C2PA specification; RFC 8785 (JCS); RFC 2119; RFC 3161; IETF SCITT and RATS working documents; representative literature on RLHF, guided decoding, watermarking, zkML.)*

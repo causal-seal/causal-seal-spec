@@ -1,0 +1,69 @@
+{
+  "profile": "causal-seal-pilot/1",
+  "description": "Parameter dictionary for the Causal Seal reference pilot. Defines the meaning, value domain and AUTHORITY of each governing-state parameter. Authority answers: who was in a position to know this field?",
+  "authority_values": {
+    "observed": "the emitter directly observed the value at generation time",
+    "asserted": "supplied to the emitter without independent verification",
+    "derived": "computed by the emitter from other state",
+    "attested": "produced/verified by a trusted control plane"
+  },
+  "parameters": {
+    "identity.expert": {
+      "meaning": "routed domain/expert profile",
+      "domain": [
+        "GENERAL",
+        "TECH",
+        "LEGAL",
+        "MED",
+        "..."
+      ],
+      "authority": "derived"
+    },
+    "engine.model": {
+      "meaning": "human-readable model identifier",
+      "authority": "asserted"
+    },
+    "engine.model_revision": {
+      "meaning": "immutable model revision/digest when the serving path exposes one; alias-only otherwise",
+      "authority": "attested-or-asserted"
+    },
+    "field.regime": {
+      "meaning": "semantic regime of the question",
+      "domain": [
+        "stable",
+        "nebula",
+        "..."
+      ],
+      "authority": "derived"
+    },
+    "shaping.depth": {
+      "meaning": "reasoning/lattice depth applied",
+      "domain": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "authority": "observed"
+    },
+    "shaping.guard": {
+      "meaning": "governance guard state",
+      "domain": [
+        "nominal",
+        "elevated",
+        "blocked"
+      ],
+      "authority": "observed"
+    },
+    "context.memory_state": {
+      "meaning": "session memory state",
+      "domain": [
+        "awake",
+        "inemuri",
+        "asleep"
+      ],
+      "authority": "observed"
+    }
+  }
+}

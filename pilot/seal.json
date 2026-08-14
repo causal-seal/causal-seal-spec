@@ -1,0 +1,16 @@
+{
+  "spec": "causal-seal/1.0",
+  "emitter": "causal-seal-pilot/1.0",
+  "timestamp": "2026-08-14T11:40:47.896Z",
+  "output_hash": "10d37e498bcdc3707b8558e303786de16838991b2eb4d67b1e561ec77cbcfd55",
+  "causal_state": {
+    "identity.expert": "GENERAL",
+    "engine.model": "example-open-model-8b",
+    "field.regime": "stable",
+    "shaping.depth": "2",
+    "shaping.guard": "nominal",
+    "context.memory_state": "awake"
+  },
+  "dictionary": "sha256:ac31fcb23322dabce6c77671d6d8aeed5ed5a1a73b552884e9698b2d817fc412",
+  "fingerprint": "1e40ea206e73ef1e2baa05c0bfffe385a3db36e45341785b8539daccd059cbd1"
+}

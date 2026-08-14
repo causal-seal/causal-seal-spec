@@ -1,0 +1,13 @@
+{
+  "pilot": "causal-seal/reference-pilot",
+  "spec": "causal-seal/1.0",
+  "model_id": "example-open-model-8b",
+  "model_revision": "alias-only (upstream did not expose an immutable revision)",
+  "output_sha256": "10d37e498bcdc3707b8558e303786de16838991b2eb4d67b1e561ec77cbcfd55",
+  "trace_path": "trace.jsonl",
+  "trace_sha256": "2fb7166e998a716a36ca79b0bddd124ff264d3fe17f8f29a5b1df25ab6c29431",
+  "seal_path": "seal.json",
+  "seal_sha256": "aba04285825cb3eac7a078bbd95a1c78c5441a70f9297bd1685b5eb026d72dcb",
+  "profile_path": "causal-profile.json",
+  "profile_sha256": "ac31fcb23322dabce6c77671d6d8aeed5ed5a1a73b552884e9698b2d817fc412"
+}

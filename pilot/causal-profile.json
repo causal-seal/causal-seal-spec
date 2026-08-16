@@ -1,6 +1,6 @@
 {
   "profile": "causal-seal-pilot/1",
-  "description": "Parameter dictionary for the Causal Seal reference pilot. Defines the meaning, value domain and AUTHORITY of each governing-state parameter. Authority answers: who was in a position to know this field?",
+  "description": "Parameter dictionary for the Causal Seal reference pilot. Meaning, value domain and AUTHORITY of each governing-state parameter.",
   "authority_values": {
     "observed": "the emitter directly observed the value at generation time",
     "asserted": "supplied to the emitter without independent verification",

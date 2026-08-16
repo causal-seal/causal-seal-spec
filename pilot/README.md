@@ -1,3 +1,16 @@
+---
+license: cc-by-4.0
+tags:
+- provenance
+- ai-transparency
+- causal-seal
+pretty_name: Causal Seal — reference pilot
+configs:
+- config_name: default
+  data_files:
+  - split: train
+    path: trace.jsonl
+---
 # Causal Seal — reference pilot
 
 An illustrative, self-contained snapshot showing the full chain a third party can
@@ -7,20 +20,24 @@ follow **without knowing the implementation that emitted it**:
         -> download / verify this snapshot
         -> open the STS trace (trace.jsonl)
         -> follow `causal_seal_ref` -> seal.json
-        -> run the Causal Seal verifier
+        -> install / run the published verifier
 
 ## Files
 | file | role |
 |---|---|
-| `manifest.json` | entry point: what maps to what, with a sha256 for each file. Git already provides snapshot integrity; the manifest is *not* a second integrity system. |
-| `trace.jsonl` | STS-format session trace; its header carries `causal_seal_ref`, `causal_seal_profile`, `output_sha256`. |
+| `manifest.json` | entry point: what maps to what, sha256 per file. Git provides snapshot integrity; the manifest is *not* a second integrity system. |
+| `trace.jsonl` | STS-format session trace. The session header carries `causal_seal_ref`, `causal_seal_profile`, `output_sha256` (extra metadata the STS renderer ignores). |
 | `seal.json` | the Causal Seal (`causal-seal/1.0`): binds the output hash + governing state + emission time into a fingerprint. |
 | `causal-profile.json` | the parameter dictionary: meaning, domain and **authority** (observed / asserted / derived / attested) of each governing-state field. The seal commits to this file **by content hash** (`dictionary`). |
 
 ## Verify it yourself
-Integrity + output binding (reference verifier, stdlib only):
+The reference verifier is published as a package (not shipped inside this snapshot):
 
-    python causal_seal.py verify seal.json --output-text "Helsinki is the capital of Finland."
+    pip install causal-seal
+
+    causal-seal verify seal.json --output-text "Helsinki is the capital of Finland."
+
+Reference implementation & spec: https://github.com/causal-seal/causal-seal-spec
 
 Snapshot integrity (Hugging Face CLI), against an exact commit:
 

@@ -1,2 +1,3 @@
 {"type": "session", "harness": "causal-seal-pilot", "id": "session-0001", "name": "Reference pilot generation", "causal_seal_ref": "seal.json", "causal_seal_profile": "causal-seal-pilot/1", "output_sha256": "10d37e498bcdc3707b8558e303786de16838991b2eb4d67b1e561ec77cbcfd55"}
-{"type": "event", "name": "generation", "input": "What is the capital of Finland?", "output": "Helsinki is the capital of Finland.", "output_sha256": "10d37e498bcdc3707b8558e303786de16838991b2eb4d67b1e561ec77cbcfd55"}
+{"type": "message", "message": {"role": "user", "content": "What is the capital of Finland?"}}
+{"type": "message", "message": {"role": "assistant", "content": "Helsinki is the capital of Finland."}}

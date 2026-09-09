@@ -6,5 +6,6 @@
 # Same reasoning for the test vectors and the pilot: their hashes are published.
 docs/profiles/*.json  -text
 test-vectors/*.json   -text
+test-vectors/*.pubkey -text
 pilot/*               -text
 *.json                text eol=lf

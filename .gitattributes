@@ -1,0 +1,10 @@
+# Seals reference these files by CONTENT HASH (SPEC 3.3), so a single byte
+# matters. On Windows, Git would otherwise rewrite LF to CRLF on checkout —
+# one extra byte per line, a different SHA-256, and every seal referencing the
+# dictionary becomes unresolvable, silently.
+#
+# Same reasoning for the test vectors and the pilot: their hashes are published.
+docs/profiles/*.json  -text
+test-vectors/*.json   -text
+pilot/*               -text
+*.json                text eol=lf

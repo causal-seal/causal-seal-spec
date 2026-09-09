@@ -117,6 +117,14 @@ async function verify(){
       if (oh !== seal.output_hash) return show(false, ["Fingerprint valid, but the seal is <b>not bound to this output</b> — the pasted text differs from the sealed one."]);
       lines.push("Output binding verified — this exact text is the one that was sealed.");
     }
+    // Say it out loud. A signature nobody checks is worse than no signature at
+    // all: it reads as authenticity while nothing was verified. This page does
+    // Level 1 only; the command-line verifier does Level 2.
+    if (seal.signature)
+      lines.push("<b>Note:</b> this seal carries a signature, which was <b>not</b> checked here — " +
+                 "this page verifies integrity only. For authenticity (Level 2), run " +
+                 "<span class='mono'>causal-seal verify seal.json --public-key &lt;key&gt;</span> " +
+                 "against the emitter's published key.");
     show(true, lines);
   } catch(e){ show(false, ["Invalid input: " + e.message]); }
 }

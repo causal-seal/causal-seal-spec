@@ -10,3 +10,21 @@ A conforming Level-1 verifier MUST accept this seal.
 ## invalid-001.json
 Same seal with `identity.expert` altered to "CORP" after emission; fingerprint unchanged.
 A conforming Level-1 verifier MUST reject it (recomputed fingerprint differs).
+
+## valid-002-signed.json  (Level 2)
+The same seal as `valid-001`, with an Ed25519 `signature` over its fingerprint.
+Public key: `valid-002-signed.pubkey` — this is the key from **RFC 8032 §7.1
+test 1**, so the signing key is public and anyone can regenerate the vector.
+A conforming Level-2 verifier MUST accept it *with that key*, and MUST reject
+it with any other key.
+
+## invalid-002-forged-signature.json  (Level 2)
+The same seal with a signature of **sixty-four zero bytes**.
+
+⚠️ It passes Level 1 — it is intact. Only Level 2 exposes it. Before Level 2 was
+implemented, this file verified exactly like a genuine seal, which is precisely
+why the vector exists: a verifier that ignores `signature` reports authenticity
+it never checked.
+
+Signature member: `signature` = Ed25519 over the ASCII hex `fingerprint`
+(SPEC §5.2), excluded from the fingerprint computation (SPEC §4).

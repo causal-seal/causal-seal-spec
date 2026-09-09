@@ -6,6 +6,7 @@ Standard library only. See SPEC.md.
 Usage:
   python causal_seal.py demo
   python causal_seal.py verify <seal.json> [--output-text "..."] [--output-file path]
+                                          [--public-key <hex|path>]
   python causal_seal.py selftest [test-vectors-dir]
 """
 import json
@@ -13,6 +14,8 @@ import hashlib
 import sys
 import os
 import datetime
+
+import ed25519_pure
 
 SPEC_ID = "causal-seal/1.0"
 REQUIRED = ("spec", "emitter", "timestamp", "output_hash", "causal_state", "dictionary", "fingerprint")
@@ -49,6 +52,39 @@ def emit_seal(emitter: str, causal_state: dict, output_text: str, dictionary: st
     }
     seal["fingerprint"] = fingerprint(seal)
     return seal
+
+
+# ── Level-2 verifier (SPEC §5.2) ─────────────────────────────────────────────
+# Level 1 answers "is it intact?". Level 2 answers "and who says so?".
+#
+# ⚠️  Without this check, a seal carrying sixty-four zero bytes as its signature
+#     verifies exactly like a genuine one. A verifier that ignores `signature`
+#     is not conformant (SPEC §6: "implements Level 2 when a signature is
+#     present") and, worse, makes signing pointless: nothing distinguishes an
+#     authority's seal from anyone else's.
+def verify_signature(seal: dict, public_key_hex: str) -> tuple[bool, str]:
+    """Verify the Ed25519 signature over the seal's fingerprint (SPEC §5.2).
+
+    The signature covers the *fingerprint*, which already binds the output, the
+    causal state and the emission time — so signing it signs all of them.
+    """
+    if "signature" not in seal:
+        return False, "seal carries no signature (Level 1 only)"
+    try:
+        sig = bytes.fromhex(seal["signature"])
+        key = bytes.fromhex(public_key_hex)
+    except ValueError:
+        return False, "signature or public key is not valid hex"
+    if len(sig) != 64:
+        return False, f"signature must be 64 bytes, got {len(sig)}"
+    if len(key) != 32:
+        return False, f"public key must be 32 bytes, got {len(key)}"
+    # The signed message is the fingerprint as it appears in the seal — its
+    # ASCII hex form, not the raw digest. Level 1 must have confirmed that this
+    # fingerprint is the real one before this claim means anything.
+    if ed25519_pure.verify(key, seal["fingerprint"].encode("ascii"), sig):
+        return True, f"signature valid for emitter '{seal.get('emitter', '?')}'"
+    return False, "signature does not verify against this public key"
 
 
 # ── Level-1 verifier (SPEC §5.1, §6) ─────────────────────────────────────────
@@ -115,7 +151,25 @@ def main(argv: list[str]) -> int:
                 output_text = f.read()
         ok, reason = verify_seal(seal, output_text)
         print(("PASS: " if ok else "FAIL: ") + reason)
-        return 0 if ok else 1
+        if not ok:
+            return 1
+
+        # Level 2 — only meaningful once Level 1 has passed: a signature over a
+        # fingerprint that is itself wrong proves nothing.
+        if "--public-key" in args:
+            key = args[args.index("--public-key") + 1]
+            if os.path.exists(key):
+                with open(key, encoding="utf-8") as f:
+                    key = f.read().strip()
+            ok2, reason2 = verify_signature(seal, key)
+            print(("PASS: " if ok2 else "FAIL: ") + reason2)
+            return 0 if ok2 else 1
+        if "signature" in seal:
+            # Say it out loud. A signature nobody checks is worse than none: it
+            # looks like authenticity while proving nothing.
+            print("NOTE: seal carries a signature — pass --public-key <hex|file> "
+                  "to verify authenticity (Level 2). It was NOT checked.")
+        return 0
 
     if cmd == "selftest":
         d = args[0] if args else os.path.join(os.path.dirname(os.path.abspath(__file__)), "test-vectors")
@@ -123,7 +177,16 @@ def main(argv: list[str]) -> int:
         for name in sorted(os.listdir(d)):
             if not name.endswith(".json"):
                 continue
-            ok, reason = verify_seal(_load(os.path.join(d, name)))
+            seal = _load(os.path.join(d, name))
+            ok, reason = verify_seal(seal)
+            # A vector whose defect is at Level 2 passes Level 1 by design. When
+            # a matching `.pubkey` sits beside it, carry the check through —
+            # otherwise a forged signature would be scored as conformant.
+            if ok and "signature" in seal:
+                key_path = os.path.join(d, name[:-5] + ".pubkey")
+                if os.path.exists(key_path):
+                    with open(key_path, encoding="utf-8") as f:
+                        ok, reason = verify_signature(seal, f.read().strip())
             must_pass = name.startswith("valid")
             verdict = "OK" if ok == must_pass else "SELFTEST-FAILURE"
             if ok != must_pass:

@@ -199,6 +199,9 @@ Comparable mappings apply to NIST AI RMF (Govern/Measure functions) and to state
 
 A production system emitting seals conformant with the spirit of this specification (predating its canonicalization, being aligned for v1.0) is publicly observable at chat.baten.ai. The free reference verifier is available at causalseal.org/verify.html and in this repository (`causal_seal.py`, `docs/verify.html`).
 
+The reference verifier implements **Level 1 and Level 2**. Level 2 requires Ed25519, which is not in the Python standard library; rather than take a dependency, verification is implemented in `ed25519_pure.py` (RFC 8032, validated against the official §7.1 vectors). It verifies only — signing needs a vetted, constant-time library.
+
 ## Appendix B — Changelog
 
+- **1.0 (2026-09-09)** — reference verifier now implements Level 2 (§5.2), as §6 requires. Two test vectors added: a signed seal and one whose signature is sixty-four zero bytes — the latter passed Level 1 and was indistinguishable from a genuine seal until Level 2 existed. Format unchanged.
 - **1.0 (2026-07-17)** — first complete specification.

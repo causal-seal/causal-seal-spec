@@ -1,0 +1,73 @@
+{
+  "profile": "baten-in",
+  "emitter": "baten-in/1.0",
+  "spec": "causal-seal/1.0",
+  "description": "Parameter dictionary for seals emitted by BATEN IN, the on-device document analysis application. Declares the MEANING, value domain and AUTHORITY of each causal parameter — not how it is computed. Published per Causal Seal SPEC §3.3.",
+  "authority_values": {
+    "observed": "the emitter directly observed the value at generation time",
+    "asserted": "supplied to the emitter without independent verification",
+    "derived": "computed by the emitter from other state",
+    "attested": "produced/verified by a trusted control plane"
+  },
+  "parameters": {
+    "engine.model": {
+      "meaning": "Identifier of the language model that wrote the report.",
+      "domain": "string",
+      "authority": "asserted"
+    },
+    "engine.reader": {
+      "meaning": "The causal reading engine that selected which passages of the sources governed the report.",
+      "domain": [
+        "DRv*",
+        "TR3"
+      ],
+      "authority": "observed"
+    },
+    "engine.workspace": {
+      "meaning": "Where the text was executed: on the device itself, or by a named online provider.",
+      "domain": "string",
+      "authority": "observed"
+    },
+    "identity.agents": {
+      "meaning": "Weights of the four orthogonal reading agents (FLVH bases), as set before the run. Format 'fv=N fh=N lv=N lh=N', summing to 100.",
+      "domain": "string",
+      "quantization": "integer percent",
+      "authority": "observed"
+    },
+    "shaping.product": {
+      "meaning": "The requested deliverable.",
+      "domain": [
+        "IN-REPORT",
+        "IN-SYNTHESIS",
+        "IN-PITCH",
+        "PROMPT"
+      ],
+      "authority": "observed"
+    },
+    "shaping.max_tokens": {
+      "meaning": "Output budget ceiling applied to the writing step.",
+      "domain": "integer",
+      "authority": "observed"
+    },
+    "shaping.sections": {
+      "meaning": "Number of sections the reading engine retained from the sources.",
+      "domain": "integer",
+      "authority": "derived"
+    },
+    "context.sources_count": {
+      "meaning": "Number of source documents sealed into the vault for this run.",
+      "domain": "integer",
+      "authority": "observed"
+    },
+    "context.sources_bytes": {
+      "meaning": "Total size in bytes of those sealed source documents.",
+      "domain": "integer",
+      "authority": "observed"
+    }
+  },
+  "notes": [
+    "Parameter class names are fixed by SPEC §3.2 (identity / engine / field / shaping / context / x). BATEN IN previously emitted a 'sources.' class, which is NOT part of the standard and was rejected by the reference verifier; it is now carried under 'context.'.",
+    "engine.model is 'asserted': the emitter names the model it loaded, without an immutable revision digest. No stronger claim is made.",
+    "Seals emitted by the application carry no 'signature' member. Integrity (Level 1) is offline and free; authenticity (Level 2) is produced server-side, where the private key resides."
+  ]
+}
